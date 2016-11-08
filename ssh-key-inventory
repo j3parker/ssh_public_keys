@@ -1,0 +1,8 @@
+#!/bin/bash
+
+find -type f -name *.pub -printf '%P\n' \
+| sed -e 's/\.pub$//' \
+| tr '\n' '\0' \
+| xargs -0 -n 1 -I{} bash -c '\
+  [ -e $HOME/.keys/{}.key ] && echo -n "* " || echo -n "  "; \
+  ./pretty-print-keyname {}'
